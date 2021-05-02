@@ -32,4 +32,12 @@
     <select id="getById" parameterType="com.cloud.easyverify.entity.User" resultType="com.cloud.easyverify.entity.User">
         select <include refid="Base_Column_List" /> from t_user where id=#{id} limit 1
     </select>
+    <select id="selectOne" parameterType="com.cloud.easyverify.entity.User" resultType="com.cloud.easyverify.entity.User">
+        select <include refid="Base_Column_List" /> from t_user
+        <where>
+            <if test="username!=null and username!=''">and username=#{username}</if>
+            <if test="password!=null and password!=''">and password=MD5(#{password})</if>
+        </where>
+        limit 1
+    </select>
  </mapper>

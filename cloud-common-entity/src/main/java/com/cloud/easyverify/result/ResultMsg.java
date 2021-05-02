@@ -7,6 +7,9 @@ public enum ResultMsg {
     USER_EXISTED(-1000,"username exist"),
     USER_LOGINFAIL(-1001,"username or password error"),
     USER_REGISTERFAIL(-1002,"register fail"),
+    USER_LIMITLOGIN(-1003,"limit login"),
+    USER_ACCESSERROR(-1004,"token invalid,please login again"),
+    USER_USERNOTEXIST(-1005,"user not exist"),
     /* SYSTEM */
     SYS_NOTFOUND(404,"not found"),
     SYS_ERROR(500,"system error")
