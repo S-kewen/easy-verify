@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.easyverify.dao.UserDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cloud.easyverify.entity.User">
+        <id column="id" property="id" />
+        <result column="type" property="type" />
+        <result column="state" property="state" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="authorization" property="authorization" />
+        <result column="remark" property="remark" />
+        <result column="add_time" property="addTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, type, state, username, authorization, remark, add_time
+    </sql>
+    <insert id="insertOne" parameterType="com.cloud.easyverify.entity.User" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into t_user values(0,#{type},#{state},#{username},MD5(#{password}),#{authorization},#{remark},CURRENT_TIMESTAMP())
+    </insert>
+    <select id="getCount" parameterType="com.cloud.easyverify.entity.User" resultType="int">
+        select count(1) from t_user
+        <where>
+            <if test="username!=null and username!=''">and username=#{username}</if>
+        </where>
+        limit 1
+    </select>
+    <select id="getById" parameterType="com.cloud.easyverify.entity.User" resultType="com.cloud.easyverify.entity.User">
+        select <include refid="Base_Column_List" /> from t_user where id=#{id} limit 1
+    </select>
+ </mapper>
