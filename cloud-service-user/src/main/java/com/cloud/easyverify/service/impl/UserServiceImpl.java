@@ -1,19 +1,20 @@
-package com.cloud.easyverify.service;
+package com.cloud.easyverify.service.impl;
 
 import com.cloud.easyverify.dao.UserDao;
 import com.cloud.easyverify.entity.User;
+import com.cloud.easyverify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * @PackageName: com.cloud.easyverify.service
+ * @PackageName: com.cloud.easyverify.service.impl
  * @ClassName: UserServiceImpl
  * @Description: This is UserServiceImpl class by Skwen.
  * @Author: Skwen
  * @Date: 2021-05-02 19:45
  */
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
     @Override

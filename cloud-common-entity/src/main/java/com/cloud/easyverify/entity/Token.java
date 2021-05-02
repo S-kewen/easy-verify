@@ -2,6 +2,7 @@ package com.cloud.easyverify.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Date;
  * @Date: 2021-05-02 20:22
  */
 @Data
-public class Token {
+public class Token implements Serializable {
     private Long id;
     private String username;
     private String password;

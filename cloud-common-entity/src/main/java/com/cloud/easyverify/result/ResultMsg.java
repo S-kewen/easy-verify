@@ -12,7 +12,11 @@ public enum ResultMsg {
     USER_USERNOTEXIST(-1005,"user not exist"),
     /* SYSTEM */
     SYS_NOTFOUND(404,"not found"),
-    SYS_ERROR(500,"system error")
+    SYS_ERROR(500,"system error"),
+    /* SECRET */
+    SECRET_CREATEFAIL(-2000,"create faill"),
+    SECRET_DELETEFAIL(-2001,"delete faill"),
+    SECRET_UPDATEFAIL(-2001,"update faill"),
     ;
     private Integer code;
     private String msg;

@@ -10,6 +10,7 @@
   <modules>
     <module>cloud-service-user</module>
     <module>cloud-common-entity</module>
+      <module>cloud-service-secret</module>
   </modules>
   <packaging>pom</packaging>
 

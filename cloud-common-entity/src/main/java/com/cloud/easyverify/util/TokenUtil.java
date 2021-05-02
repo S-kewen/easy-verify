@@ -3,7 +3,6 @@ package com.cloud.easyverify.util;
 import cn.hutool.crypto.SecureUtil;
 import com.cloud.easyverify.entity.Token;
 import com.cloud.easyverify.entity.User;
-import com.cloud.easyverify.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -23,8 +22,6 @@ import java.util.Date;
  */
 @Component
 public class TokenUtil {
-    @Autowired
-    private UserService userService;
     @Value("${jwt.config.salt}")
     private String salt;
     @Value("${jwt.config.ttl}")
@@ -49,18 +46,13 @@ public class TokenUtil {
                 .getBody();
         User user = new User();
         user.setId(Long.parseLong(claims.getId()));
-        user = userService.getById(user);
-        if (user != null && user.getState() == 1) {
-            Token token = new Token();
-            token.setId(Long.parseLong(claims.getId()));
-            token.setUsername(claims.getSubject());
-            token.setPassword((String) claims.get("cipher"));
-            token.setRole((String) claims.get("role"));
-            token.setAddTime(claims.getIssuedAt());
-            token.setExpireTime(claims.getExpiration());
-            return token;
-        } else {
-            return null;
-        }
+        Token token = new Token();
+        token.setId(Long.parseLong(claims.getId()));
+        token.setUsername(claims.getSubject());
+        token.setPassword((String) claims.get("cipher"));
+        token.setRole((String) claims.get("role"));
+        token.setAddTime(claims.getIssuedAt());
+        token.setExpireTime(claims.getExpiration());
+        return token;
     }
 }
