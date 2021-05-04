@@ -16,7 +16,12 @@ public enum ResultMsg {
     /* SECRET */
     SECRET_CREATEFAIL(-2000,"create faill"),
     SECRET_DELETEFAIL(-2001,"delete faill"),
-    SECRET_UPDATEFAIL(-2001,"update faill"),
+    SECRET_UPDATEFAIL(-2002,"update faill"),
+    /* TEMPLATE */
+    TEMPLATE_CREATEFAIL(-3000,"create faill"),
+    TEMPLATE_DELETEFAIL(-3001,"delete faill"),
+    TEMPLATE_UPDATEFAIL(-3002,"update faill"),
+    TEMPLATE_SYMBOLNOTEXIST(-3003,"symbol does not exist"),
     ;
     private Integer code;
     private String msg;

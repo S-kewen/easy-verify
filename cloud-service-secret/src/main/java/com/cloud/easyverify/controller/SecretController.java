@@ -2,6 +2,7 @@ package com.cloud.easyverify.controller;
 
 import cn.hutool.core.util.RandomUtil;
 import com.cloud.easyverify.entity.Secret;
+import com.cloud.easyverify.entity.Template;
 import com.cloud.easyverify.entity.Token;
 import com.cloud.easyverify.result.MyResult;
 import com.cloud.easyverify.result.ResultMsg;
@@ -104,6 +105,24 @@ public class SecretController {
             secret.setUid(token.getId());
             secret.setExpireTime(expireTime);
             secret.setRemark(remark);
+            int count = secretService.updateOne(secret);
+            if (count > 0) {
+                return new MyResult(ResultMsg.SUCCESS);
+            } else {
+                return new MyResult(ResultMsg.SECRET_UPDATEFAIL);
+            }
+        } else {
+            return new MyResult(ResultMsg.USER_ACCESSERROR);
+        }
+    }
+    @RequestMapping("/changeState")
+    public MyResult changeState(@RequestHeader("Authorization") String authorization, @Min(1) int id,int state) {
+        Token token = tokenUtil.parseToken(authorization);
+        if (token != null) {
+            Secret secret = new Secret();
+            secret.setId(id);
+            secret.setUid(token.getId());
+            secret.setState(state);
             int count = secretService.updateOne(secret);
             if (count > 0) {
                 return new MyResult(ResultMsg.SUCCESS);

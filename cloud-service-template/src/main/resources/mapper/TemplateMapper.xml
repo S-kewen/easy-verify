@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.easyverify.dao.TemplateDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cloud.easyverify.entity.Template">
+        <id column="id" property="id" />
+        <id column="uid" property="uid" />
+        <result column="type" property="type" />
+        <result column="state" property="state" />
+        <result column="title" property="title" />
+        <result column="content" property="content" />
+        <result column="code_type" property="codeType" />
+        <result column="code_len" property="codeLen" />
+        <result column="remark" property="remark" />
+        <result column="add_time" property="addTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="column_list">
+        id, uid, type, state, title, content, code_type as expireTime, code_len as codeLen, remark, add_time as addTime
+    </sql>
+
+    <sql id="table_name">
+        t_template
+    </sql>
+
+
+    <insert id="insertOne" parameterType="com.cloud.easyverify.entity.Template" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into <include refid="table_name" /> values(0,#{uid},#{type},#{state},#{title},#{content},#{codeType},#{codeLen},#{remark},CURRENT_TIMESTAMP())
+    </insert>
+    <select id="list" parameterType="com.cloud.easyverify.entity.Template"
+            resultType="java.util.HashMap">
+        select <include refid="column_list" /> from <include refid="table_name" />
+        <where>
+            <if test="uid!=null and uid!=''">and uid=#{uid}</if>
+            <if test="type!=null and type!=''">and type=#{type}</if>
+            <if test="state!=null and state!=''">and state=#{state}</if>
+            <if test="content!=null and content!=''">and content like CONCAT('%',#{content},'%')</if>
+        </where>
+    </select>
+    <delete id="deleteOne" parameterType="com.cloud.easyverify.entity.Template">
+        delete from <include refid="table_name" /> where id=#{id} and uid=#{uid} limit 1
+    </delete>
+    <update id="updateOne" parameterType="com.cloud.easyverify.entity.Template">
+        update <include refid="table_name" />
+        <set>
+            <if test="type!=null and type!=''">type=#{type},</if>
+            <if test="state!=null and state!=''">state=#{state},</if>
+            <if test="title!=null and title!=''">title=#{title},</if>
+            <if test="content!=null and content!=''">content=#{content},</if>
+            <if test="codeType!=null and codeType!=''">code_type=#{codeType},</if>
+            <if test="codeLen!=null and codeLen!=''">code_len=#{codeLen},</if>
+            <if test="remark!=null and remark!=''">remark=#{remark},</if>
+        </set>
+        where id=#{id} and uid=#{uid} limit 1
+    </update>
+    <select id="selectOne" parameterType="com.cloud.easyverify.entity.Template"
+            resultType="com.cloud.easyverify.entity.Template">
+        select <include refid="column_list" /> from <include refid="table_name" />
+        <where>
+            <if test="id!=null and id!=''">and id=#{id}</if>
+            <if test="uid!=null and uid!=''">and uid=#{uid}</if>
+        </where>
+        limit 1
+    </select>
+ </mapper>

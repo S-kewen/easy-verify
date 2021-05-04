@@ -11,6 +11,8 @@
     <module>cloud-service-user</module>
     <module>cloud-common-entity</module>
       <module>cloud-service-secret</module>
+      <module>cloud-service-template</module>
+      <module>cloud-service-verify</module>
   </modules>
   <packaging>pom</packaging>
 
