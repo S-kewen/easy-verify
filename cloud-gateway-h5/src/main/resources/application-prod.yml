@@ -1,0 +1,49 @@
+server:
+  ip: 127.0.0.1
+  port: 9000
+  ssl:
+    key-store: classpath:easyverify-api.iskwen.com.jks
+    key-store-password: qq19971102
+    key-store-type: JKS
+spring:
+  application:
+    name: cloud-aggregation-h5
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${server.ip}:8848
+        group: DEFAULT_GROUP #默认是DEFAULT_GROUP，也可以自己自行指定
+      config:
+        server-addr: ${server.ip}:8848
+        file-extension: yaml
+        group: DEFAULT_GROUP #默认是DEFAULT_GROUP，也可以自己自行指定
+    sentinel:
+      transport:
+        dashboard: ${server.ip}:8080
+        port: 8719 #默认8719，被占用的话会自动向8720后进行扫描
+    gateway:
+      discovery:
+        locator:
+          enabled: true #开启动态路由
+      routes:
+        - id: url-proxy-1
+          uri: lb://cloud-aggregation-h5
+          predicates:
+            - Path=/v1/api/** # 断言，路径匹配的进行路由
+            #- After=#可以通过ZonedDateTime.now()获得
+            #- Cookie=token#是否一定要有指定cookie才能访问
+            #- Header=token, [\S] #是否一定要有指定cookie才能访问
+            #其他详细配置参考：https://blog.csdn.net/qq_38380025/article/details/102968559
+      #      routes:
+      #        - id: url-proxy-1
+      #          uri: http://localhost:8008
+      #          predicates:
+      #            - Path=/v1/api/pay/** # 断言，路径匹配的进行路由
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
