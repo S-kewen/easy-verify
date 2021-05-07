@@ -67,8 +67,15 @@ public class UserController {
         if (user != null) {
             if (user.getState() == 1) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("token", tokenUtil.createToken(user));
-                return new MyResult(ResultMsg.SUCCESS, map);
+                String token = tokenUtil.createToken(user);
+                map.put("token", token);
+                user.setAuthorization(token);
+                int count = userService.updateOne(user);
+                if (count>0){
+                    return new MyResult(ResultMsg.SUCCESS, map);
+                }else{
+                    return new MyResult(ResultMsg.USER_LOGINFAIL);
+                }
             } else {
                 return new MyResult(ResultMsg.USER_LIMITLOGIN);
             }

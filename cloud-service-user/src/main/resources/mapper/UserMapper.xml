@@ -15,29 +15,45 @@
     </resultMap>
 
     <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
+    <sql id="column_list">
         id, type, state, username, authorization, remark, add_time
     </sql>
+
+    <sql id="table_name">
+        t_secret
+    </sql>
+
+
     <insert id="insertOne" parameterType="com.cloud.easyverify.entity.User" useGeneratedKeys="true"
             keyProperty="id">
-        insert into t_user values(0,#{type},#{state},#{username},MD5(#{password}),#{authorization},#{remark},CURRENT_TIMESTAMP())
+        insert into <include refid="table_name" /> values(0,#{type},#{state},#{username},MD5(#{password}),#{authorization},#{remark},CURRENT_TIMESTAMP())
     </insert>
     <select id="getCount" parameterType="com.cloud.easyverify.entity.User" resultType="int">
-        select count(1) from t_user
+        select count(1) from <include refid="table_name" />
         <where>
             <if test="username!=null and username!=''">and username=#{username}</if>
         </where>
         limit 1
     </select>
     <select id="getById" parameterType="com.cloud.easyverify.entity.User" resultType="com.cloud.easyverify.entity.User">
-        select <include refid="Base_Column_List" /> from t_user where id=#{id} limit 1
+        select <include refid="column_list" /> from <include refid="table_name" /> where id=#{id} limit 1
     </select>
     <select id="selectOne" parameterType="com.cloud.easyverify.entity.User" resultType="com.cloud.easyverify.entity.User">
-        select <include refid="Base_Column_List" /> from t_user
+        select <include refid="column_list" /> from <include refid="table_name" />
         <where>
             <if test="username!=null and username!=''">and username=#{username}</if>
             <if test="password!=null and password!=''">and password=MD5(#{password})</if>
         </where>
         limit 1
     </select>
+    <update id="updateOne" parameterType="com.cloud.easyverify.entity.User">
+        update <include refid="table_name" />
+        <set>
+            <if test="state!=null and state!=''">state=#{state},</if>
+            <if test="password!=null and password!=''">password=MD5(#{password}),</if>
+            <if test="authorization!=null and authorization!=''">authorization=#{authorization},</if>
+            <if test="remark!=null">remark=#{remark},</if>
+        </set>
+        where id=#{id} limit 1
+    </update>
  </mapper>
