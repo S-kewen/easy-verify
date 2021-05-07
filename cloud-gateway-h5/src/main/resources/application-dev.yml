@@ -5,6 +5,7 @@ server:
     key-store: classpath:easyverify-api.iskwen.com.jks
     key-store-password: qq19971102
     key-store-type: JKS
+    enabled: false
   tomcat:
     uri-encoding: UTF-8
     max-threads: 1000
@@ -29,6 +30,9 @@ spring:
         dashboard: ${server.ip}:8080
         port: 8719 #默认8719，被占用的话会自动向8720后进行扫描
     gateway:
+      httpclient:
+        pool:
+          maxIdleTime: 10000
       discovery:
         locator:
           enabled: true #开启动态路由

@@ -1,6 +1,4 @@
 package com.cloud.easyverify;
-
-import com.cloud.easyverify.config.RandomRule;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -19,9 +17,6 @@ import org.springframework.context.annotation.FilterType;
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableFeignClients
 @EnableDiscoveryClient
-@ComponentScan(basePackages = "com.cloud.easyverify",excludeFilters = {
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,value = RandomRule.class)
-})
 public class H5Main {
     public static void main(String[] args) {
         SpringApplication.run(H5Main.class, args);
