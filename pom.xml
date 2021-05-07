@@ -13,6 +13,8 @@
       <module>cloud-service-secret</module>
       <module>cloud-service-template</module>
       <module>cloud-service-verify</module>
+      <module>cloud-aggregation-h5</module>
+      <module>cloud-gateway-h5</module>
   </modules>
   <packaging>pom</packaging>
 

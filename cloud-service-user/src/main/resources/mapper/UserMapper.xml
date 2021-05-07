@@ -16,11 +16,11 @@
 
     <!-- 通用查询结果列 -->
     <sql id="column_list">
-        id, type, state, username, authorization, remark, add_time
+        id, type, state, username, authorization, remark, add_time as addTime
     </sql>
 
     <sql id="table_name">
-        t_secret
+        t_user
     </sql>
 
 

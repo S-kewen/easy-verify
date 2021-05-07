@@ -22,6 +22,10 @@ public enum ResultMsg {
     TEMPLATE_DELETEFAIL(-3001,"delete faill"),
     TEMPLATE_UPDATEFAIL(-3002,"update faill"),
     TEMPLATE_SYMBOLNOTEXIST(-3003,"symbol does not exist"),
+    /* VERIFY */
+    VERIFY_CREATEFAIL(-3000,"create faill"),
+    VERIFY_DELETEFAIL(-3001,"delete faill"),
+    VERIFY_UPDATEFAIL(-3002,"update faill"),
     ;
     private Integer code;
     private String msg;

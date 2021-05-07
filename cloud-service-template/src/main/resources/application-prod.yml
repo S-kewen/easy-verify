@@ -3,7 +3,7 @@ server:
   port: 5400
 spring:
   application:
-    name: cloud-service-secret
+    name: cloud-service-template
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss

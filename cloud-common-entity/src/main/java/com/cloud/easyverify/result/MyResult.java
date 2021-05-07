@@ -1,6 +1,7 @@
 package com.cloud.easyverify.result;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @PackageName: com.cloud.easyverify.result
@@ -10,6 +11,7 @@ import lombok.Data;
  * @Date: 2021-05-02 19:30
  */
 @Data
+@NoArgsConstructor
 public class MyResult {
     private Integer code;
 
