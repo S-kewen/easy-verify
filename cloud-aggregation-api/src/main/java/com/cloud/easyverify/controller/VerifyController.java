@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.*;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 /**
@@ -45,7 +46,7 @@ public class VerifyController {
     private HttpServletRequest httpServletRequest;
 
     @RequestMapping("/create")
-    public MyResult create(@NotEmpty String secret, long tid, @Email @NotEmpty String email, @NotNull String remark) {
+    public MyResult create(@NotEmpty String secret, long tid, @Email @NotEmpty String email, @NotNull String remark) throws UnsupportedEncodingException {
         MyResult result = secretFeignService.getBySecret(secret);
         if (result.getCode() == 200) {
             JSONObject jsonObject = JSONUtil.parseObj(result.getData());
@@ -70,7 +71,7 @@ public class VerifyController {
                             expireTime = DateUtil.offset(expireTime, DateField.SECOND, validTime).toJdkDate();
                             expireTime = DateUtil.offsetHour(expireTime, -14).toJdkDate();
                             int state = 1;
-                            if (!YunCourierUtil.sendEmail(email, title, content)) {
+                            if (!YunCourierUtil.sendEmailByAsync(email, title, content)) {
                                 state = 2;
                             }
                             result = verifyFeignService.create(uid, sid, tid, 1, state, tryTotal, ip, code, email, title, content, expireTime, remark);

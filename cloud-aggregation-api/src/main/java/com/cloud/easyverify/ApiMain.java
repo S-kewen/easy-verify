@@ -17,7 +17,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableFeignClients
 @EnableDiscoveryClient
-@EnableAsync
 public class ApiMain {
     public static void main(String[] args) {
         SpringApplication.run(ApiMain.class, args);
