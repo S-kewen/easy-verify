@@ -52,7 +52,7 @@ public class YunCourierUtil {
         nvps.add(new BasicNameValuePair("title", title));
         nvps.add(new BasicNameValuePair("msg", msg));
         //设置参数到请求对象中
-        httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+        httpPost.setEntity(new UrlEncodedFormEntity(nvps, "utf-8"));
         httpclient.execute(httpPost, new FutureCallback<HttpResponse>() {
             @Override
             public void completed(final HttpResponse response) {
