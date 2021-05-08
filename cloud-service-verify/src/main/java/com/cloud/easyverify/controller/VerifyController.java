@@ -1,7 +1,6 @@
 package com.cloud.easyverify.controller;
 
 import cn.hutool.core.util.IdUtil;
-import com.cloud.easyverify.entity.Secret;
 import com.cloud.easyverify.entity.Token;
 import com.cloud.easyverify.entity.Verify;
 import com.cloud.easyverify.result.MyResult;
@@ -17,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -123,6 +119,32 @@ public class VerifyController {
             }
         } else {
             return new MyResult(ResultMsg.USER_ACCESSERROR);
+        }
+    }
+
+    @RequestMapping("/getByUUId")
+    public MyResult getByUUId(@NotEmpty String uuid) {
+        Verify verify = new Verify();
+        verify.setUuid(uuid);
+        verify = verifyService.selectOne(verify);
+        if (verify != null) {
+            return new MyResult(ResultMsg.SUCCESS, verify);
+        } else {
+            return new MyResult(ResultMsg.VERIFY_SELECTFAIL);
+        }
+    }
+
+    @RequestMapping("/modifyByUUId")
+    public MyResult modifyByUUId(@NotEmpty String uuid, int state, int tryTotal) {
+        Verify verify = new Verify();
+        verify.setUuid(uuid);
+        verify.setState(state);
+        verify.setTryCount(tryTotal);
+        int count = verifyService.updateOne(verify);
+        if (count > 0) {
+            return new MyResult(ResultMsg.SUCCESS);
+        } else {
+            return new MyResult(ResultMsg.VERIFY_UPDATEFAIL);
         }
     }
 }

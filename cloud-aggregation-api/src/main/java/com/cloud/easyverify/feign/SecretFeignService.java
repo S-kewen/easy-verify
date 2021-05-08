@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.Date;
 
 /**
@@ -36,6 +37,6 @@ public interface SecretFeignService {
     MyResult changeState(@RequestHeader("Authorization") String authorization, @RequestParam("id") int id, @RequestParam("state") int state);
 
     @RequestMapping(URL + "/getBySecret")
-    public MyResult getBySecret(@RequestParam("secret") String secretStr);
+    MyResult getBySecret(@RequestParam("secretStr") String secretStr);
 }
 

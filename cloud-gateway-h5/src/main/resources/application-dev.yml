@@ -12,7 +12,7 @@ server:
     max-connections: 20000
 spring:
   application:
-    name: cloud-aggregation-h5
+    name: cloud-gateway-h5
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss

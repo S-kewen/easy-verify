@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -29,8 +30,8 @@ public class TemplateController {
     private TemplateFeignService templateFeignService;
 
     @RequestMapping("/create")
-    public MyResult create(@RequestHeader("Authorization") String authorization, @NotNull String title, @NotNull String content, int codeType, @Max(100) int codeLen, @NotNull String remark) {
-        return templateFeignService.create(authorization, title, content, codeType, codeLen, remark);
+    public MyResult create(@RequestHeader("Authorization") String authorization, @NotEmpty String title, @NotEmpty String content, int codeType, @Max(100) int codeLen, @Min(1) int tryTotal, @Min(1) int validTime, @NotNull String remark) {
+        return templateFeignService.create(authorization, title, content, codeType, codeLen, tryTotal, validTime, remark);
     }
 
     @RequestMapping("/listTemplate")
@@ -44,8 +45,8 @@ public class TemplateController {
     }
 
     @RequestMapping("/modify")
-    public MyResult modify(@RequestHeader("Authorization") String authorization, @Min(1) int id, @NotNull String title, @NotNull String content, int codeType, @Max(100) int codeLen, @NotNull String remark) {
-        return templateFeignService.modify(authorization, id, title, content, codeType, codeLen, remark);
+    public MyResult modify(@RequestHeader("Authorization") String authorization, @Min(1) int id, @NotNull String title, @NotNull String content, int codeType, @Max(100) int codeLen, @Min(1) int tryTotal, @Min(1) int validTime, @NotNull String remark) {
+        return templateFeignService.modify(authorization, id, title, content, codeType, codeLen, tryTotal, validTime, remark);
     }
 
     @RequestMapping("/changeState")

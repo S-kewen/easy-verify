@@ -22,6 +22,8 @@ public class Template implements Serializable {
     private String content;
     private int codeType;
     private int codeLen;
+    private int tryTotal;
+    private int validTime;
     private String remark;
     private Date addTime;
 }

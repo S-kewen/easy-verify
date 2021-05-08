@@ -2,7 +2,6 @@ package com.cloud.easyverify.controller;
 
 import cn.hutool.core.util.RandomUtil;
 import com.cloud.easyverify.entity.Secret;
-import com.cloud.easyverify.entity.Template;
 import com.cloud.easyverify.entity.Token;
 import com.cloud.easyverify.result.MyResult;
 import com.cloud.easyverify.result.ResultMsg;
@@ -17,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +41,7 @@ public class SecretController {
     private TokenUtil tokenUtil;
 
     @RequestMapping("/create")
-    public MyResult create(@RequestHeader("Authorization") String authorization,Date expireTime, @NotNull String remark) {
+    public MyResult create(@RequestHeader("Authorization") String authorization, Date expireTime, @NotNull String remark) {
         Token token = tokenUtil.parseToken(authorization);
         if (token != null) {
             Secret secret = new Secret();
@@ -97,7 +99,7 @@ public class SecretController {
     }
 
     @RequestMapping("/modify")
-    public MyResult modify(@RequestHeader("Authorization") String authorization, @Min(1) int id,Date expireTime, @NotNull String remark) {
+    public MyResult modify(@RequestHeader("Authorization") String authorization, @Min(1) int id, Date expireTime, @NotNull String remark) {
         Token token = tokenUtil.parseToken(authorization);
         if (token != null) {
             Secret secret = new Secret();
@@ -115,8 +117,9 @@ public class SecretController {
             return new MyResult(ResultMsg.USER_ACCESSERROR);
         }
     }
+
     @RequestMapping("/changeState")
-    public MyResult changeState(@RequestHeader("Authorization") String authorization, @Min(1) int id,int state) {
+    public MyResult changeState(@RequestHeader("Authorization") String authorization, @Min(1) int id, int state) {
         Token token = tokenUtil.parseToken(authorization);
         if (token != null) {
             Secret secret = new Secret();
@@ -133,4 +136,17 @@ public class SecretController {
             return new MyResult(ResultMsg.USER_ACCESSERROR);
         }
     }
+
+    @RequestMapping("/getBySecret")
+    public MyResult getBySecret(@NotEmpty String secretStr) {
+        Secret secret = new Secret();
+        secret.setSecret(secretStr);
+        secret = secretService.getBySecret(secret);
+        if (secret != null) {
+            return new MyResult(ResultMsg.SUCCESS, secret);
+        } else {
+            return new MyResult(ResultMsg.SECRET_SELECTFAIL);
+        }
+    }
+
 }

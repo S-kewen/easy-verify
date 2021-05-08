@@ -12,13 +12,15 @@
         <result column="content" property="content" />
         <result column="code_type" property="codeType" />
         <result column="code_len" property="codeLen" />
+        <result column="try_total" property="tryTotal" />
+        <result column="valid_time" property="validTime" />
         <result column="remark" property="remark" />
         <result column="add_time" property="addTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="column_list">
-        id, uid, type, state, title, content, code_type as expireTime, code_len as codeLen, remark, add_time as addTime
+        id, uid, type, state, title, content, code_type as codeType, code_len as codeLen, try_total as tryTotal, valid_time as validTime, remark, add_time as addTime
     </sql>
 
     <sql id="table_name">
@@ -28,7 +30,7 @@
 
     <insert id="insertOne" parameterType="com.cloud.easyverify.entity.Template" useGeneratedKeys="true"
             keyProperty="id">
-        insert into <include refid="table_name" /> values(0,#{uid},#{type},#{state},#{title},#{content},#{codeType},#{codeLen},#{remark},CURRENT_TIMESTAMP())
+        insert into <include refid="table_name" /> values(0,#{uid},#{type},#{state},#{title},#{content},#{codeType},#{codeLen},#{tryTotal},#{validTime},#{remark},CURRENT_TIMESTAMP())
     </insert>
     <select id="list" parameterType="com.cloud.easyverify.entity.Template"
             resultType="java.util.HashMap">
@@ -52,6 +54,8 @@
             <if test="content!=null and content!=''">content=#{content},</if>
             <if test="codeType!=null and codeType!=''">code_type=#{codeType},</if>
             <if test="codeLen!=null and codeLen!=''">code_len=#{codeLen},</if>
+            <if test="tryTotal!=null and tryTotal!=''">try_total=#{tryTotal},</if>
+            <if test="validTime!=null and validTime!=''">valid_time=#{validTime},</if>
             <if test="remark!=null and remark!=''">remark=#{remark},</if>
         </set>
         where id=#{id} and uid=#{uid} limit 1

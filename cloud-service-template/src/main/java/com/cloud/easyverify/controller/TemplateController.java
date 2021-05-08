@@ -38,7 +38,7 @@ public class TemplateController {
     private TokenUtil tokenUtil;
 
     @RequestMapping("/create")
-    public MyResult create(@RequestHeader("Authorization") String authorization, @NotNull String title, @NotNull String content, int codeType, @Max(100) int codeLen, @NotNull String remark) {
+    public MyResult create(@RequestHeader("Authorization") String authorization, @NotNull String title, @NotNull String content, int codeType, @Max(100) int codeLen, @Min(1) int tryTotal, @Min(1) int validTime, @NotNull String remark) {
         if (content.indexOf("$(#code)") == -1) {
             return new MyResult(ResultMsg.TEMPLATE_SYMBOLNOTEXIST);
         }
@@ -52,6 +52,8 @@ public class TemplateController {
             template.setContent(content);
             template.setCodeType(codeType);
             template.setCodeLen(codeLen);
+            template.setTryTotal(tryTotal);
+            template.setValidTime(validTime);
             template.setRemark(remark);
             int count = templateService.insertOne(template);
             if (count > 0) {
@@ -101,7 +103,7 @@ public class TemplateController {
     }
 
     @RequestMapping("/modify")
-    public MyResult modify(@RequestHeader("Authorization") String authorization, @Min(1) int id, @NotNull String title, @NotNull String content, int codeType, @Max(100) int codeLen, @NotNull String remark) {
+    public MyResult modify(@RequestHeader("Authorization") String authorization, @Min(1) int id, @NotNull String title, @NotNull String content, int codeType,@Max(100) int codeLen, @Min(1) int tryTotal, @Min(1) int validTime,@NotNull String remark) {
         if (content.indexOf("$(#code)") == -1) {
             return new MyResult(ResultMsg.TEMPLATE_SYMBOLNOTEXIST);
         }
@@ -114,6 +116,8 @@ public class TemplateController {
             template.setContent(content);
             template.setCodeType(codeType);
             template.setCodeLen(codeLen);
+            template.setTryTotal(tryTotal);
+            template.setValidTime(validTime);
             template.setRemark(remark);
             int count = templateService.updateOne(template);
             if (count > 0) {
@@ -142,6 +146,19 @@ public class TemplateController {
             }
         } else {
             return new MyResult(ResultMsg.USER_ACCESSERROR);
+        }
+    }
+
+    @RequestMapping("/selectOne")
+    public MyResult selectOne(@Min(1) long id, @Min(1) long uid) {
+        Template template = new Template();
+        template.setId(id);
+        template.setUid(uid);
+        template = templateService.selectOne(template);
+        if (template != null) {
+            return new MyResult(ResultMsg.SUCCESS, template);
+        } else {
+            return new MyResult(ResultMsg.TEMPLATE_UPDATEFAIL);
         }
     }
 }

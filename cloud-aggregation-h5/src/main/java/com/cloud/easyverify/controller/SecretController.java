@@ -55,4 +55,8 @@ public class SecretController {
     public MyResult changeState(@RequestHeader("Authorization") String authorization, @Min(1) int id,int state) {
         return secretFeignService.changeState(authorization,id,state);
     }
+    @RequestMapping("/getBySecret")
+    public MyResult getBySecret(String secretStr) {
+        return secretFeignService.getBySecret(secretStr);
+    }
 }

@@ -4,27 +4,27 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.cloud.easyverify.entity.Verify">
-        <id column="id" property="id" />
-        <result column="uuid" property="uuid" />
-        <result column="uid" property="uid" />
-        <result column="tid" property="tid" />
-        <result column="type" property="type" />
-        <result column="state" property="state" />
-        <result column="try_count" property="tryCount" />
-        <result column="try_total" property="tryTotal" />
-        <result column="ip" property="ip" />
-        <result column="code" property="code" />
-        <result column="email" property="email" />
-        <result column="title" property="title" />
-        <result column="content" property="content" />
-        <result column="remark" property="remark" />
-        <result column="expire_time" property="expireTime" />
-        <result column="add_time" property="addTime" />
+        <id column="id" property="id"/>
+        <result column="uuid" property="uuid"/>
+        <result column="uid" property="uid"/>
+        <result column="tid" property="tid"/>
+        <result column="type" property="type"/>
+        <result column="state" property="state"/>
+        <result column="try_count" property="tryCount"/>
+        <result column="try_total" property="tryTotal"/>
+        <result column="ip" property="ip"/>
+        <result column="code" property="code"/>
+        <result column="email" property="email"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="remark" property="remark"/>
+        <result column="expire_time" property="expireTime"/>
+        <result column="add_time" property="addTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="column_list">
-        id, uuid, uid, sid, tid, type, state, try_count, try_total, ip, code, email, title, content, expire_time, remark, add_time
+        id, uuid, uid, sid, tid, type, state, try_count as tryCount, try_total as tryTotal, ip, code, email, title, content, expire_time as expireTime, remark, add_time as addTime
     </sql>
 
     <sql id="table_name">
@@ -34,13 +34,25 @@
 
     <insert id="insertOne" parameterType="com.cloud.easyverify.entity.Verify" useGeneratedKeys="true"
             keyProperty="id">
-        insert into <include refid="table_name" /> values(0, #{uuid}, #{uid}, #{sid}, #{tid}, #{type}, #{state}, #{tryCount}, #{tryTotal}, #{ip}, #{code}, #{email}, #{title}, #{content},  #{expireTime}, #{remark}, CURRENT_TIMESTAMP())
+        insert into
+        <include refid="table_name"/>
+        values(0, #{uuid}, #{uid}, #{sid}, #{tid}, #{type}, #{state}, #{tryCount}, #{tryTotal}, #{ip}, #{code},
+        #{email}, #{title}, #{content}, #{expireTime}, #{remark}, CURRENT_TIMESTAMP())
     </insert>
-    <select id="getById" parameterType="com.cloud.easyverify.entity.Verify" resultType="com.cloud.easyverify.entity.Verify">
-        select <include refid="column_list" /> from <include refid="table_name" /> where id=#{id} limit 1
+    <select id="getById" parameterType="com.cloud.easyverify.entity.Verify"
+            resultType="com.cloud.easyverify.entity.Verify">
+        select
+        <include refid="column_list"/>
+        from
+        <include refid="table_name"/>
+        where id=#{id} limit 1
     </select>
-    <select id="selectOne" parameterType="com.cloud.easyverify.entity.Verify" resultType="com.cloud.easyverify.entity.Verify">
-        select <include refid="column_list" /> from <include refid="table_name" />
+    <select id="selectOne" parameterType="com.cloud.easyverify.entity.Verify"
+            resultType="com.cloud.easyverify.entity.Verify">
+        select
+        <include refid="column_list"/>
+        from
+        <include refid="table_name"/>
         <where>
             <if test="id!=null and id!=''">and id=#{id}</if>
             <if test="uuid!=null and uuid!=''">and uuid=#{uuid}</if>
@@ -52,17 +64,26 @@
         limit 1
     </select>
     <update id="updateOne" parameterType="com.cloud.easyverify.entity.Verify">
-        update <include refid="table_name" />
+        update
+        <include refid="table_name"/>
         <set>
             <if test="state!=null and state!=''">state=#{state},</if>
-            <if test="tryCount!=null and tryCount!=''">try_count=#{tryCount},</if>
+            <if test="tryCount!=null and tryCount!=''">try_count=try_count+1,</if>
             <if test="remark!=null">remark=#{remark},</if>
         </set>
-        where id=#{id} limit 1
+        <where>
+            <if test="id!=null and id!=''">and id=#{id}</if>
+            <if test="uuid!=null and uuid!=''">and uuid=#{uuid}</if>
+            <if test="uid!=null and uid!=''">and uid=#{uid}</if>
+        </where>
+        limit 1
     </update>
     <select id="list" parameterType="com.cloud.easyverify.entity.Verify"
             resultType="java.util.HashMap">
-        select <include refid="column_list" /> from <include refid="table_name" />
+        select
+        <include refid="column_list"/>
+        from
+        <include refid="table_name"/>
         <where>
             <if test="uuid!=null and uuid!=''">and uuid=#{uuid}</if>
             <if test="uid!=null and uid!=''">and uid=#{uid}</if>
@@ -73,6 +94,8 @@
         </where>
     </select>
     <delete id="deleteOne" parameterType="com.cloud.easyverify.entity.Verify">
-        delete from <include refid="table_name" /> where id=#{id} and uid=#{uid} limit 1
+        delete from
+        <include refid="table_name"/>
+        where id=#{id} and uid=#{uid} limit 1
     </delete>
- </mapper>
+</mapper>

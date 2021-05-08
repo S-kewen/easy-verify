@@ -37,4 +37,3 @@ public interface TemplateFeignService {
     @RequestMapping(URL + "/selectOne")
     MyResult selectOne(@RequestParam("id") long id, @RequestParam("uid") long uid);
 }
-

@@ -1,13 +1,18 @@
 server:
   ip: 127.0.0.1
-  port: 9000
+  port: 9100
   ssl:
     key-store: classpath:easyverify-api.iskwen.com.jks
     key-store-password: qq19971102
     key-store-type: JKS
+    enabled: false
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    max-connections: 20000
 spring:
   application:
-    name: cloud-gateway-h5
+    name: cloud-gateway-api
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
@@ -25,12 +30,15 @@ spring:
         dashboard: ${server.ip}:8080
         port: 8719 #默认8719，被占用的话会自动向8720后进行扫描
     gateway:
+      httpclient:
+        pool:
+          maxIdleTime: 10000
       discovery:
         locator:
           enabled: true #开启动态路由
       routes:
         - id: url-proxy-1
-          uri: lb://cloud-aggregation-h5
+          uri: lb://cloud-aggregation-api
           predicates:
             - Path=/v1/api/** # 断言，路径匹配的进行路由
             #- After=#可以通过ZonedDateTime.now()获得
